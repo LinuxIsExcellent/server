@@ -1,0 +1,25 @@
+set(CMAKE_BUILD_TYPE Debug)
+if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    set(CMAKE_CXX_FLAGS_DEBUG "-g -Wall -O0 -std=c++11")
+else()
+    set(CMAKE_CXX_FLAGS_DEBUG "-g -Wall -O0 -std=c++11 -Wl,-rpath,../lib")
+endif()
+include_directories(${DIR_BASE_INCLUDE} ${DIR_MODEL_INCLUDE} ${DIR_ENGINE_INCLUDE})
+link_directories(${DIR_BASE_LIB} ${DIR_MODEL_LIB} ${DIR_ENGINE_LIB})
+
+add_executable(front_server 
+qo/commandstatsave.cpp 
+qo/commandmapservicelistload.cpp
+luamapagent.cpp 
+worldmgr.cpp 
+playersession.cpp 
+modulegateway.cpp 
+modulebattle.cpp
+main.cpp)
+
+if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    target_link_libraries(front_server base model engine dl readline crypto.a pthread z)
+else()
+    target_link_libraries(front_server base model engine dl readline crypto.a rt pthread z)
+endif()
+

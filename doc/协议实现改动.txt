@@ -1,0 +1,14 @@
+将协议和功能逻辑分离，以fs mail为例
+
+protocol/mail_oper.lua 将协议数据解析出来再调用mail功能接口
+
+agent模块初始化中加载protocol/mail_oper.lua
+
+agent.registerHandlers(vm.executeCachedScript('protocol/mail_oper.lua', agent))
+
+
+
+
+
+
+

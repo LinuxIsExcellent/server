@@ -1,0 +1,268 @@
+
+
+
+
+
+
+
+
+
+vip系统
+    local info = {
+    	tplId = vip模板ID,
+    	exp = vip经验,
+    	expired = vip过期时间截,
+    	signCount = 连续登录天数,
+    	lastSignTime = 上次登录时间,
+    	}
+    dict.set("vip.info", info)
+		
+成就系统
+	table.insert(achieves, {
+		tplId = 成就模板ID,
+		createTime = 创建时间截,
+		finishTime = 完成时间截,
+		drawTime = 领取奖励时间截,
+		progress = 当前进度
+	  })
+    dict.set('achievement.achieves', achieves)
+
+    table.insert(medals, v.id) --已得到的成就
+    dict.set('achievement.medals', medals)
+
+	
+活动系统
+	table.insert(list, {
+		id = v.id,
+		progress = v.progress,
+		pickedList = v.pickedList,
+		createTime = v.createTime,
+	  })
+    dict.set('activity.list', list)
+
+
+联盟系统
+    dict.set("alliance.data", {
+        honor = alliance.honor, 
+        donateCDTime = alliance.donateCDTime, 
+        donateLastTime = alliance.donateLastTime, 
+        donateGoldCount = alliance.donateGoldCount,
+        exploreRefeshTime = alliance.exploreRefeshTime,
+        reinforcementExpireTime = alliance.reinforcementExpireTime,
+        allianceJoinTimes = alliance.allianceJoinTimes,
+        disableHelps = alliance.disableHelps
+    })
+    local explores = {}
+    for _, v in pairs(alliance.explores) do
+        table.insert(explores, {
+            tplId = v.tplId,
+            accept = v.accept,
+            fullTime = v.fullTime,
+            cdId = v.cdId,
+            dropList = v.dropList
+        })
+    end
+    dict.set("alliance.explores", explores)
+
+    local allianceGifts = {}
+    allianceGifts.pickGifts = alliance.pickGifts
+    allianceGifts.clearGifts = alliance.clearGifts
+    dict.set('alliance.allianceGifts', allianceGifts)
+
+
+兵种
+    local data = {}
+    data.lastUpkeepTime = lastUpkeepTime
+    data.infos = {}
+    for k, v in pairs(infos) do
+        local info = {}
+        info.tplid = k
+        info.states = v.states
+        table.insert(data.infos, info)
+    end
+    dict.set("army.infos", data)
+
+    --captives
+    local captives = captives
+    local data = {}
+    data.list = {}
+    for tplid, cp in pairs(captives) do
+        if cp.count > 0 then
+            table.insert(data.list, {tplid = tplid, count = cp.count})
+        end
+    end
+    dict.set("army.captives", data)
+
+
+BUFF
+    local cityList = {}
+    for k, v in pairs(buff.cityList) do
+        local temp = {}
+        temp.type = v.type
+        temp.cdId = v.cdId
+        temp.param1 = v.param1
+        table.insert(cityList, temp)
+    end
+    dict.set("buff.cityList", cityList)
+
+    local skillList = {}
+    for k, v in pairs(buff.skillList) do
+        local temp = {}
+        temp.type = v.type
+        temp.cdId = v.cdId
+        temp.param1 = v.param1
+        table.insert(skillList, temp)
+    end
+    dict.set("buff.skillList", skillList)
+	
+	
+建筑系统
+    local blist = {}
+    for _, v in pairs(building.list) do
+        table.insert(blist, {
+            id = v.id,
+            gridId = v.gridId,
+            tplId = v.tplId,
+            level = v.level,
+            state = v.state,
+            cdId = v.cdId,
+            p1 = v.p1,
+            p2= v.p2,
+            p3 = v.p3,
+            p4 = v.p4,
+            p5 = v.p5,
+            p6 = v.p6,
+          })
+          --print('dbSave id, gridId, tplId, level, state, cdId, p1, p2, p3, p4, p5, p6 = ' , v.id, v.gridId, v.tplId, v.level, v.state, v.cdId, v.p1, v.p2, v.p3, v.p4, v.p5, v.p6)
+    end
+    dict.set('building.list', blist)
+    dict.set('building.info', {
+        maxId = building.maxId,
+        forestId = building.forestId,
+        builder1 = building.builder1,
+        builder2 = building.builder2,
+        builder2ExpireTime = building.builder2ExpireTime,
+    })
+    --print(building.maxId, building.forestId, building.builder1, building.builder2, building.builder2ExpireTime)
+
+    --wishing
+    local data = {}
+    data.wishingFreeTimes = wishingFreeTimes
+    data.list = {}
+    for type, info in pairs(wishingList) do
+        data.list[type] = {wishingTimes = info.wishingTimes, goldTimes = info.goldTimes}
+    end
+    dict.set("wishing", data)
+
+    --captiveWork
+    local data = {}
+    data.list = {}
+    for _, info in pairs(captiveWorkList) do
+        table.insert(data.list, {
+            resourceType = info.resourceType,
+            beginTimestamp = info.beginTimestamp,
+            endTimestamp = info.endTimestamp,
+            addition = info.addition,
+        })
+    end
+    dict.set("building.captiveWork", data)
+	
+冷却组件
+    local data = {}
+    data.maxid = maxid
+    data.cds = {}
+    for _, cd in pairs(cds) do
+        if cd:isCooling() then
+            table.insert(data.cds, {cd.id, cd.type, cd.beginTime, cd.endTime})
+        end
+    end
+    data.hour0Refresh = cdList.lastHour0Timestamp
+    data.hour5Refresh = cdList.lastHour5Timestamp
+    dict.set("cdlist", data)
+
+日常任务
+    local doList = {}
+    for _, v in pairs(dailyTask.doList) do
+        doList[v.id] = { id = v.id, progress = v.progress }
+    end
+    local data = {}
+    data.curScore = dailyTask.curScore
+    data.doList = doList
+    data.drawList = dailyTask.drawList
+    dict.set('dailyTask.info', data)
+
+杂项
+    dict.set("misc.info", {
+        -- sign
+        signCount = misc.data.signCount,
+        signToday = misc.data.signToday,
+        signScheme = misc.data.signScheme,
+        lastSignTime = misc.data.lastSignTime,
+        -- online reward
+        onlineStep = misc.data.onlineStep,
+        onlineExpired = misc.data.onlineExpired,
+        onlineItemId = misc.data.onlineItemId,
+        onlineItemCount = misc.data.onlineItemCount,
+        onlineItemList = misc.data.onlineItemList,
+        --dice
+        diceFreeCount = misc.data.diceFreeCount,
+        diceWishValue = misc.data.diceWishValue,
+        diceCoinCount = misc.data.diceCoinCount,
+        -- login infos
+        loginLogs = misc.data.loginLogs,
+        --player set
+        sets = misc.data.sets,
+        })
+		
+天赋系统
+    local  tree = {}
+    for _, v in pairs(skill.tree) do
+        table.insert(tree, {
+            tplId = v.tplId,
+            level = v.level
+          })
+          --print('skill.dbSave tplId, level = ' , v.tplId, v.level)
+    end
+    dict.set('skill.tree', tree)
+
+    local  activeList = {}
+    for _, v in pairs(skill.activeList) do
+        table.insert(activeList, {
+            tplId = v.tplId,
+            cdId = v.cdId
+          })
+          --print('skill.dbSave tplId, cdId = ' , v.tplId, v.cdId)
+    end
+    dict.set('skill.activeList', activeList)
+	
+科技系统
+    dict.set("technology.list", list)--map<tplid, level>
+	
+爬塔系统
+    local data = {puppets = {}}
+    for tplid, puppet in pairs(puppets) do
+        if puppet.count > 0 then
+            data.puppets[tplid] = puppet.count
+        end
+    end
+    data.info = {
+        layer = towerInfo.layer,
+        monsters = towerInfo.monsters,
+        report = towerInfo.report,
+        resetTimes = towerInfo.resetTimes,
+        maxLayer = towerInfo.maxLayer,
+        recordTime = towerInfo.recordTime,
+    }
+    dict.set('tower.info', data)
+
+
+
+
+
+
+
+
+
+
+
+

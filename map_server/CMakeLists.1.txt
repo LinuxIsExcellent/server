@@ -1,0 +1,90 @@
+set(CMAKE_BUILD_TYPE Debug)
+if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    set(CMAKE_CXX_FLAGS_DEBUG "-g -Wall -O0 -std=c++11")
+else()
+    set(CMAKE_CXX_FLAGS_DEBUG "-g -Wall -O0 -Wno-unused-local-typedefs -std=c++11 -Wl,-rpath,../lib")
+endif()
+include_directories(${DIR_BASE_INCLUDE} ${DIR_MODEL_INCLUDE} ${DIR_ENGINE_INCLUDE} ${DIR_LUA_INCLUDE} ${DIR_BOOST_INCLUDE})
+link_directories(${DIR_BASE_LIB} ${DIR_MODEL_LIB} ${DIR_ENGINE_LIB} ${DIR_LUA_LIB} "/lib/x86_64-linux-gnu")
+
+add_executable(map_server 
+map/tpl/mapcitytpl.cpp 
+map/tpl/npcarmytpl.cpp 
+map/tpl/battletpl.cpp 
+map/qo/commandstatsave.cpp 
+engine/geometry.cpp
+engine/vector2.cpp 
+engine/linesegment.cpp 
+map/activity/activity.cpp 
+map/activity/worldbossactivity.cpp 
+map/activitymgr.cpp
+map/qo/dataservice.cpp 
+map/qo/commandcheckuser.cpp 
+map/qo/commandserverinfoload.cpp 
+map/qo/commandsuccessivekingsave.cpp 
+map/qo/commandsuccessivekingsload.cpp 
+map/qo/commandtroopload.cpp
+map/qo/commandserverinfosave.cpp 
+map/qo/commandfighthistoryload.cpp
+map/qo/commandunitload.cpp
+map/qo/commandunitsave.cpp
+map/qo/commandagentload.cpp
+map/qo/commandagentsave.cpp
+map/qo/commandmsgqueueload.cpp
+map/qo/commandmsgqueuesave.cpp
+map/qo/commanddictload.cpp
+map/qo/commanddictsave.cpp
+map/qo/commandtransportrecordload.cpp
+map/info/dbinfo.cpp
+map/info/property.cpp
+map/info/palaceWar.cpp
+map/msgqueue/msgqueue.cpp
+map/msgqueue/msgrecord.cpp
+map/battle/battlemgr.cpp 
+map/armylist.cpp 
+map/troop.cpp 
+map/area.cpp
+map/unit/capital.cpp
+map/unit/famouscity.cpp
+map/unit/camp.cpp
+map/unit/monster.cpp 
+map/unit/castle.cpp
+map/unit/unit.cpp 
+map/unit/resnode.cpp 
+map/unit/tree.cpp
+map/unit/palace.cpp
+map/unit/catapult.cpp
+map/unit/worldboss.cpp
+map/tpl/army.cpp
+map/tpl/mapunittpl.cpp
+map/tpl/templateloader.cpp
+map/tpl/moduletemplateloader.cpp
+map/tpl/scouttypetpl.cpp
+map/agent.cpp 
+map/modulemap.cpp 
+map/alliance.cpp
+map/map.cpp 
+map/bitmap_image.hpp
+map/troopImpl.cpp
+map/modulebattle.cpp
+map/battle/battle.cpp
+map/battle/castlebattle.cpp
+map/battle/citybattle.cpp
+map/battle/resourcebattle.cpp
+map/battle/camptempbattle.cpp
+map/battle/campfixedbattle.cpp
+map/battle/monsterbattle.cpp
+map/battle/catapultbattle.cpp
+map/battle/worldbossbattle.cpp
+map/battle/capitalbattle.cpp
+map/heroinfo.cpp
+map/trapset.cpp
+
+main.cpp)
+
+
+if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    target_link_libraries(map_server base model engine dl readline crypto.a pthread z)
+else()
+    target_link_libraries(map_server base model engine dl readline crypto.a rt pthread z)
+endif()

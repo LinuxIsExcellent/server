@@ -1,0 +1,8 @@
+set(DIR_BASE_ROOT ${CMAKE_CURRENT_LIST_DIR})
+
+set(DIR_BASE_INCLUDE "${DIR_BASE_ROOT}")
+set(DIR_BASE_LIB "${DIR_BASE_ROOT}/build/base")
+
+set(DIR_LUA_INCLUDE "${DIR_BASE_ROOT}/base/3rd/lua")
+
+

@@ -1,0 +1,20 @@
+set(CMAKE_BUILD_TYPE Debug)
+if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    set(CMAKE_CXX_FLAGS_DEBUG "-g -Wall -O3 -std=c++11")
+else()
+    set(CMAKE_CXX_FLAGS_DEBUG "-g -Wall -O3 -Wno-unused-local-typedefs -std=c++11 -Wl,-rpath,../lib")
+endif()
+include_directories(${DIR_BASE_INCLUDE} ${DIR_MODEL_INCLUDE} ${DIR_ENGINE_INCLUDE} ${DIR_LUA_INCLUDE} ${DIR_BOOST_INCLUDE})
+link_directories(${DIR_BASE_LIB} ${DIR_MODEL_LIB} ${DIR_ENGINE_LIB} ${DIR_LUA_LIB} "/lib/x86_64-linux-gnu")
+
+add_executable(center_server
+modulecenterserver.cpp 
+
+main.cpp)
+
+
+if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    target_link_libraries(center_server base model dl readline crypto.a pthread z)
+else()
+    target_link_libraries(center_server base model dl readline crypto.a rt pthread z)
+endif()

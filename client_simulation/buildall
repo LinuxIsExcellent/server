@@ -1,0 +1,19 @@
+#!/bin/bash
+
+declare -a PROJECTS=(
+"base"
+"model"
+"client_simulation"
+)
+
+cd ../
+
+for proj in ${PROJECTS[@]}
+do
+    mkdir -p $proj/build
+    cd $proj/build
+    cmake ..
+    make
+    cd -
+done
+

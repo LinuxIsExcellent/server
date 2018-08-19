@@ -1,0 +1,14 @@
+
+set(CMAKE_CXX_FLAGS_DEBUG "-g -Wall -O0 -std=c++11")
+
+include_directories(${DIR_BASE_INCLUDE} ${DIR_BOOST_INCLUDE})
+
+add_library(model SHARED
+tpl/configure.cpp 
+version.cpp
+tpl/moduletemplateloader.cpp
+tpl/templateloader.cpp
+tpl/item.cpp
+tpl/drop.cpp
+tpl/army.cpp
+)

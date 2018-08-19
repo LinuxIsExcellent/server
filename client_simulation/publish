@@ -1,0 +1,61 @@
+#!/bin/bash
+
+DEST="/opt/app/sg_client/"
+IP="127.0.0.1"
+PORT=8100
+FS=8
+
+if [ "$1" != "" ]; then
+    IP=$1
+fi
+
+if [ "$2" != "" ]; then
+    PORT=$2
+fi
+
+if [ "$3" != "" ]; then
+    FS=$3
+fi
+
+echo '1. clear all old data'
+rm -rf release
+mkdir -p release/config
+mkdir -p release/binary
+mkdir -p release/lib
+mkdir -p release/tpl
+
+echo '2. copy new data'
+cp ./config/client_simulation.conf ./release/config/
+cp ./build/client_simulation ./release/binary/
+cp ../base/build/base/libbase.so ./release/lib/
+cp ../model/build/model/libmodel.so ./release/lib/
+cp -r ./tpl/* ./release/tpl/
+
+echo '3. clone 1-50 data'
+mkdir -p $DEST
+for((i = 1; i < 51; i++))
+do
+    TARGET="$DEST"client_simulation"$i"/
+    echo "move to $TARGET"
+    mkdir -p $TARGET
+    cp -R release/* $TARGET
+    FROM=$(expr $i - 1)
+    FROM=$(expr $FROM \* 100)
+    FROM=$(expr $FROM + 1)
+    TO=$(expr $i \* 100)
+    P=$(expr $i - 1)
+    P=$(expr $P % $FS)
+    P=$(expr $PORT + $P)
+    sed -i "s/_begin_/$FROM/g" "$TARGET"config/client_simulation.conf
+    sed -i "s/_end_/$TO/g" "$TARGET"config/client_simulation.conf
+    sed -i "s/_ip_/$IP/g" "$TARGET"config/client_simulation.conf
+    sed -i "s/_port_/$P/g" "$TARGET"config/client_simulation.conf
+done
+
+rm -rf release
+
+echo 'publish finish ...'
+
+
+
+

@@ -1,0 +1,4 @@
+#ifndef RAPIDJSON_ASSERT
+#include "../../exception.h"
+#define RAPIDJSON_ASSERT(x) if (!(x)) { throw base::Exception("bad json type"); }
+#endif // RAPIDJSON_ASSERT

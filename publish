@@ -1,0 +1,76 @@
+#!/bin/bash
+
+echo 'publish ms cs fs'
+echo '1. clear old data'
+rm -rf release
+
+echo '2. copy resource files'
+mkdir -p release/resource
+svn export --force resource release/resource
+
+echo '3. copy tools scripts'
+cp tools/*.sh release
+
+rm release/resource/metadata_gen.php
+rm -rf release/resource/ots-script
+
+echo '4. copy lib files'
+mkdir -p release/lib
+cp bin/lib/libbase.so release/lib
+cp bin/lib/libmodel.so release/lib
+cp bin/lib/libengine.so release/lib
+
+echo '5. copy ms, cs, fs 1-8'
+mkdir -p 'release/ms'
+cp -u bin/map_server 'release/ms'
+
+mkdir -p 'release/cs'
+cp -u bin/center_server 'release/cs'
+
+mkdir -p 'release/fs-1'
+cp -u bin/front_server 'release/fs-1'
+
+mkdir -p 'release/fs-2'
+cp -u bin/front_server 'release/fs-2'
+
+mkdir -p 'release/fs-3'
+cp -u bin/front_server 'release/fs-3'
+
+mkdir -p 'release/fs-4'
+cp -u bin/front_server 'release/fs-4'
+
+mkdir -p 'release/fs-5'
+cp -u bin/front_server 'release/fs-5'
+
+mkdir -p 'release/fs-6'
+cp -u bin/front_server 'release/fs-6'
+
+mkdir -p 'release/fs-7'
+cp -u bin/front_server 'release/fs-7'
+
+mkdir -p 'release/fs-8'
+cp -u bin/front_server 'release/fs-8'
+
+rm -rf release/ms/logs
+rm -rf release/cs/logs
+rm -rf release/fs-1/logs
+rm -rf release/fs-2/logs
+rm -rf release/fs-3/logs
+rm -rf release/fs-4/logs
+rm -rf release/fs-5/logs
+rm -rf release/fs-6/logs
+rm -rf release/fs-7/logs
+rm -rf release/fs-8/logs
+
+echo '6. publish finish'
+
+echo '--------------------------------'
+TARGET=/opt/app/sg
+echo "copy to $TARGET"
+mkdir -p $TARGET
+rm -rf $TARGET/resource/script
+rm -rf $TARGET/resource/cs-script
+rm -rf $TARGET/resource/fs-script
+cp release/* $TARGET -r
+rm $TARGET/*.sh
+echo '--------------------------------'

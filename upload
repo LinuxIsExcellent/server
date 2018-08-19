@@ -1,0 +1,53 @@
+#!/bin/bash
+
+TOUSER="tips"
+TOHOST="192.168.1.55"
+SSH="ssh -p 22"
+TODIR="/opt/app/sg_upload"
+
+case "$1" in
+"")
+    ;;
+55)
+    ;;
+tips)
+    TOHOST="125.90.93.143"
+    ;;
+39out)
+    TOUSER="root"
+    TOHOST="39.108.116.183"
+    ;;
+xy)
+    TOUSER="root"
+    TOHOST="139.196.177.73"
+    SSH="ssh -p 1101"
+    ;;
+zz)
+    TOUSER="root"
+    TOHOST="101.200.197.156"
+    SSH="ssh -p 22000 -i qbtx.doc"
+    ;;
+zz_test)
+    TOUSER="root"
+    TOHOST="123.57.237.65"
+    SSH="ssh -p 22000 -i qbtx.doc"
+    TODIR="/data/sg_upload"
+    ;;
+*)
+    echo 'input one of them: 55, tips, xy'
+    exit
+    ;;
+esac
+
+echo upload server to $1[$TOHOST]
+
+if [ -d release/sql ]
+then
+    mv release/sql release/sql_`date +'%Y_%m_%d'`
+fi
+
+TARGET_DIR=$TOUSER@$TOHOST:$TODIR
+rsync -r -e "$SSH" --progress release/* $TARGET_DIR
+
+rm -rf release
+

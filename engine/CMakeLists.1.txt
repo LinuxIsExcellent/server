@@ -1,0 +1,36 @@
+cmake_minimum_required(VERSION 2.8)
+
+get_filename_component(ROOT_DIR ${CMAKE_CURRENT_LIST_DIR} PATH)
+include("${ROOT_DIR}/CMakeVar.txt")
+include("${ROOT_DIR}/base/CMakeVar.txt")
+include("${ROOT_DIR}/model/CMakeVar.txt")
+
+
+include_directories(${DIR_BASE_INCLUDE} ${DIR_MODEL_INCLUDE})
+
+set(CMAKE_CXX_FLAGS_DEBUG "-g -Wall -Wno-unused-local-typedefs -o3 -std=c++11")
+
+project(engine C CXX)
+set(CMAKE_BUILD_TYPE Debug)
+
+add_library(engine SHARED
+interface.cpp
+battle/buff.cpp
+battle/bufflist.cpp
+battle/hero.cpp
+battle/team.cpp 
+battle/singlecombat.cpp
+battle/mixedcombat.cpp
+battle/herocombat.cpp
+tpl/t_hero.cpp
+tpl/t_spell.cpp 
+tpl/t_buff.cpp
+tpl/t_army.cpp
+)
+
+
+if(MSVC)
+    SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/build)
+else()
+    SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/build)
+endif(MSVC)

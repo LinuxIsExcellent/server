@@ -1,0 +1,20 @@
+#!/bin/bash
+
+declare -a PROJECTS=(
+"base"
+"engine"
+"model"
+"center_server"
+"map_server"
+"front_server"
+)
+
+for proj in ${PROJECTS[@]}
+do
+    mkdir -p $proj/build
+    cd $proj/build
+    cmake ..
+    make
+    cd -
+done
+

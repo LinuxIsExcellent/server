@@ -1,0 +1,7 @@
+{
+   http = { ip = '0.0.0.0', port = 8030 },
+
+   hubSite = { ip = '192.168.11.55', port = 8050 },
+
+   sdk = { list = { '*', 'tsdk' }, tsdkHost = 'http://tsdk-test.aok.xianyugame.com', tsdkAppId = 6, tsdkAppKey = 'faAfeMVeiAgcAFe' },
+}

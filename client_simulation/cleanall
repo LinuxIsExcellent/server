@@ -1,0 +1,17 @@
+#!/bin/bash
+
+declare -a PROJECTS=(
+"base"
+"model"
+"client_simulation"
+)
+
+cd ../
+
+for proj in ${PROJECTS[@]}
+do
+    cd $proj/build
+    make clean
+    cd -
+done
+

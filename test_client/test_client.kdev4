@@ -1,0 +1,4 @@
+[Project]
+Name=test_client
+Manager=KDevCMakeManager
+VersionControl=

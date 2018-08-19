@@ -1,0 +1,108 @@
+﻿
+资源刷新数量
+
+资源带       农田     林场    铁矿    秘银矿   金矿
+资源带1~3级  5740   5740   28704  1435    717
+资源带2~4级  4705   4705   2352   1176     588
+资源带3~5级  3678   3678   1839    919       459
+资源带4~6级  2618   2618   1309    654       327
+资源带5~7级  1582   1582    791     395      197
+资源带6~8级  4958    495     247     124       62
+
+怪物刷新     37644   （1~30级）
+
+30级-1级怪出现的概率列表
+80
+161
+242
+323
+404
+485
+566
+647
+728
+809
+890
+971
+1052
+1133
+1214
+1295
+1376
+1457
+1538
+1619
+1700
+1781
+1861
+1942
+2023
+2104
+2185
+2266
+2347
+2428
+
+
+
+server {
+    listen       80;
+    listen       [::]:80;
+    server_name  aok.97phone.com;
+
+    root /opt/www/aok.97phone.com;
+    charset utf-8;
+    index          index.html index.php;
+    access_log     off;
+
+    location ~ .*\.php$ {
+        fastcgi_pass   unix:/var/run/php5-fpm.sock;
+        fastcgi_index  index.php;
+        include        fastcgi_params;
+    }
+}
+
+
+git clone --depth 1 https://github.com/letsencrypt/letsencrypt
+
+cd letsencrypt
+
+执行前确保aok.97phone.com的80端口可以访问
+./letsencrypt-auto certonly --webroot -w /opt/www/aok.97phone.com/ -d aok.97phone.com --email kudychen@yeah.net --agree-tos
+
+其中 certonly 表示只获取证书而不去更改web服务器配置，
+webroot表示使用网页目录验证域名，
+-w 指定域名绑定的目录，
+-d指定域名，可以包含多个-d和-w参数，多个-d参数可以用于生成多域名证书。 
+–email表示用于恢复的邮箱，可以使用任意邮箱地址，
+–agree-tos表示接受许可协议。
+
+server {
+    listen       80;
+    listen       443 ssl;
+    listen       [::]:80;
+    listen       [::]:443 ssl;
+    server_name  aok.97phone.com;
+    ssl_certificate /etc/letsencrypt/live/aok.97phone.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/aok.97phone.com/privkey.pem;
+
+    root /opt/www/aok.97phone.com;
+    charset utf-8;
+    index          index.html index.php;
+    access_log     off;
+
+    location ~ .*\.php$ {
+        fastcgi_pass   unix:/var/run/php5-fpm.sock;
+        fastcgi_index  index.php;
+        include        fastcgi_params;
+    }
+}
+
+
+itms-services:///?action=download-manifest&url=https://aok.97phone.com/manifest.plist
+
+select FROM_UNIXTIME(log_time, '%Y-%m-%d') as dt, avg(count) as avgOnline, max(count) as topOnline from s_online where log_time >=1452700800 and log_time <=1453132799 group by dt;
+
+select FROM_UNIXTIME(login_time, '%Y-%m-%d') as dt, avg(logout_time - login_time) as avgOnlineTime from s_login where login_time >=1452700800 and login_time <=1453132799 group by dt;
+
+

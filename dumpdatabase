@@ -1,0 +1,34 @@
+#! /bin/bash
+
+DIR="sql/"
+VSN=""
+
+case "$1" in
+102)
+    DIR="sql/v1.0.2/"
+    VSN="_v102"
+    echo 'using v102'
+    ;;
+103)
+    DIR="sql/v1.0.3/"
+    VSN="_v103"
+    echo 'using v103'
+    ;;
+*)
+    echo 'using v_newest ...'
+    ;;
+esac
+
+
+mkdir -p release/sql/
+mysqldump -uroot -psevenu1021 -h192.168.1.55 sg_tpl"$VSN" > release/sql/sg_tpl.sql
+mysqldump -uroot -psevenu1021 -h192.168.1.55 sg_game s_activity > release/sql/sg_activity.sql
+
+cp "$DIR"hub_schema.sql release/sql/sg_hub.sql
+cp "$DIR"game_schema.sql release/sql/sg_game.sql
+cp "$DIR"map_schema.sql release/sql/sg_map.sql
+cp "$DIR"log_schema.sql release/sql/sg_log.sql
+cp "$DIR"init.sql release/sql/init.sql
+cp "$DIR"init_tpl.sql release/sql/init_tpl.sql
+cp "$DIR"init_hub.sql release/sql/init_hub.sql
+

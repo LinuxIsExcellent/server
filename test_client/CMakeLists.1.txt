@@ -1,0 +1,10 @@
+cmake_minimum_required(VERSION 2.8)
+
+get_filename_component(ROOT_DIR ${CMAKE_CURRENT_LIST_DIR} PATH)
+include("${ROOT_DIR}/base/CMakeVar.txt")
+include("${ROOT_DIR}/model/CMakeVar.txt")
+#include("${ROOT_DIR}/engine/CMakeVar.txt")
+
+project(test_client CXX)
+
+add_subdirectory(src)

@@ -1,0 +1,20 @@
+#! /bin/bash
+
+case "$1" in
+100)
+    ;;
+101)
+    ;;
+*)
+    echo 'input 100-110 ...'
+    exit
+    ;;
+esac
+
+mysqldump -uroot -psevenu1021 -h192.168.1.55 sg_tpl > sg_tpl.sql
+
+mysql -uroot -psevenu1021 -h192.168.1.55 sg_tpl_v"$1" < sg_tpl.sql
+
+rm sg_tpl.sql
+
+echo "source sg_tpl to sg_tpl_v$1 done ..."
